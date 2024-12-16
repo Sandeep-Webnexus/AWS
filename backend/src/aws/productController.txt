@@ -1,0 +1,41 @@
+import { APIGatewayProxyHandler } from "aws-lambda";
+
+export const createProduct: APIGatewayProxyHandler = async (event) => {
+  const data = JSON.parse(event.body || "{}");
+  return {
+    statusCode: 201,
+    body: JSON.stringify({ message: "Product created", data }),
+  };
+};
+
+export const getAllProducts: APIGatewayProxyHandler = async () => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "List of products", products: [] }),
+  };
+};
+
+export const getProductById: APIGatewayProxyHandler = async (event) => {
+  const { id } = event.pathParameters || {};
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Product details", id }),
+  };
+};
+
+export const updateProduct: APIGatewayProxyHandler = async (event) => {
+  const { id } = event.pathParameters || {};
+  const data = JSON.parse(event.body || "{}");
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Product updated", id, data }),
+  };
+};
+
+export const deleteProduct: APIGatewayProxyHandler = async (event) => {
+  const { id } = event.pathParameters || {};
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Product deleted", id }),
+  };
+};

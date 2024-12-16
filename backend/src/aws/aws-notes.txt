@@ -1,0 +1,13 @@
+6. Test the Endpoints
+Once deployed, you’ll see the API Gateway endpoints in the output. Use a tool like Postman to test the endpoints.
+
+Example output:
+
+text
+Copy code
+endpoints:
+  POST - https://<api-id>.execute-api.us-east-1.amazonaws.com/api/products
+  GET  - https://<api-id>.execute-api.us-east-1.amazonaws.com/api/products
+  GET  - https://<api-id>.execute-api.us-east-1.amazonaws.com/api/products/{id}
+  PUT  - https://<api-id>.execute-api.us-east-1.amazonaws.com/api/products/{id}
+  DELETE - https://<api-id>.execute-api.us-east-1.amazonaws.com/api/products/{id}

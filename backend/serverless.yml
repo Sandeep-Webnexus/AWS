@@ -1,0 +1,93 @@
+service: note-ts-aws-api
+
+frameworkVersion: '4.4.14'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  tracing:
+    apiGateway: true
+    lambda: true
+  region: us-east-1
+  stage: dev
+  memorySize: 512
+  timeout: 90
+  environment:
+    PRODUCTS_TABLE: products
+
+plugins:
+  - serverless-offline
+
+#custom:
+ # serverless-offline:
+   # port: 3002  # Set the port number you want
+   # httpPort: 3002  # Optional, you can specify a separate HTTP port if needed
+   # websocketPort: 4000  # Optional, if you are using websockets
+
+functions:
+  createProduct:
+    handler: src/controllers/productController.createProduct
+    events:
+      - httpApi:
+          path: /api/products
+          method: post
+
+  getAllProducts:
+    handler: dist/controllers/productController.getAllProducts
+    events:
+      - httpApi:
+          path: /api/products
+          method: get
+
+  getProductById:
+    handler: src/controllers/productController.getProductById
+    events:
+      - httpApi:
+          path: /api/products/{id}
+          method: get
+
+  updateProduct:
+    handler: src/controllers/productController.updateProduct
+    events:
+      - httpApi:
+          path: /api/products/{id}
+          method: put
+
+  deleteProduct:
+    handler: src/controllers/productController.deleteProduct
+    events:
+      - httpApi:
+          path: /api/products/{id}
+          method: delete
+
+resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: products
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    # CORS Configuration for httpApi (apply to the whole API)
+    ApiGatewayV2Api:
+      Type: AWS::ApiGatewayV2::Api
+      Properties:
+        Name: ProductsApi
+        ProtocolType: HTTP
+        CorsConfiguration:
+          AllowOrigins:
+            - "*"
+          AllowMethods:
+            - OPTIONS
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          AllowHeaders:
+            - "*"

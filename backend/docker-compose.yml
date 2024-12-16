@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: node-ts-crud-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=morpheme
+      - DB_NAME=MorphemeTestDB
+    volumes:
+      - .:/src/app
+    networks:
+      - node-ts-network
+    depends_on:
+      - localhost
+
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: morpheme
+      POSTGRES_DB: MorphemeTestDB
+    ports:
+      - "5432:5432"
+    networks:
+      - node-ts-network
+
+networks:
+  node-ts-network:
+    driver: bridge
+
+

@@ -1,0 +1,15 @@
+src/
+├── assets/
+├── components/
+├── contexts/
+├── hooks/
+├── pages/
+├── redux/ (or store/)
+├── routes/
+├── services/
+├── styles/
+├── utils/
+├── App.js
+├── index.js
+├── reportWebVitals.js (optional)
+└── setupTests.js (optional)
